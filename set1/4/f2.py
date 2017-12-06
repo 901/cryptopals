@@ -3,35 +3,33 @@ from word_score import word_score
 
 fo = open("4.txt", "r")
 fitness = word_score()
-decrypted = ""
+decrypted = b''
 decrypted_strings = []
 fitness_dict = {}
-alphabet = "\n\t\v\r\'\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~\\`!@#$%^&*()_+=-|\}]{[]};:<,>.?/"
+
+def pretty_print_result(result):
+    """Prints the given resulting candidate in a pretty format."""
+    print(result['plaintext'].decode().rstrip(), "\tScore:", "{0:.2f}".format(result['score']),
+          "\tKey:", chr(result['key']))
 
 for ctext in fo:
     #ctext = fo.readline()
     #print ctext
-    ctext = ctext.strip().decode("hex")
-    for a in alphabet:
+    ctext = bytes.fromhex(ctext)
+    for a in range(0,256):
         for c in ctext:
-            try:
-                decrypted += chr(ord(c) ^ ord(a))
-            except ValueError:
-                pass
-        #print decrypted
-        decrypted_strings.append(decrypted)
-        decrypted = ""
-    #print "-------end cipher-------"
+            decrypted += bytes([a ^ c])
+        pretty_print_result(decrypted)
 
 for i in range(0, len(decrypted_strings)):
     x, y = fitness.score(decrypted_strings[i])
     #print i
     if x > -51.0:
-        print " " + str(x) + "  " + decrypted_strings[i]
+        print(" " + str(x) + "  " + decrypted_strings[i])
     fitness_dict[decrypted_strings[i]] = x
 
 highest = max(fitness_dict.values())
 
 for k,v in fitness_dict.iteritems():
     if v == highest:
-        print k
+        print(k)

@@ -23,11 +23,13 @@ for c1 in alphabet:
 for i in range(0, len(decrypted_strings)):
     #returns (score, list object of possible substrings in ciphertext) tuple
     x, y = fitness.score(decrypted_strings[i])
+    #print str(x) + " " + decrypted_strings[i]
     #we only need the score, so add the score to the fitness dictionay, with the string as key
     fitness_dict[decrypted_strings[i]] = x
 
 #find the highest fitness score in the dictionary
 highest_score = max(fitness_dict.values())
+print highest_score
 #iterate through all of the dictionary and find maching string given highest score value
 for k,v in fitness_dict.iteritems():
     if v == highest_score:
