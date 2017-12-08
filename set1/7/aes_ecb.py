@@ -7,3 +7,9 @@ with open("7.txt") as input_file:
 x = AES.new("YELLOW SUBMARINE", AES.MODE_ECB)
 plaintext = x.decrypt(cipher)
 print(plaintext)
+
+"""
+One line format:
+
+print(AES.new("YELLOW SUBMARINE", AES.MODE_ECB).decrypt(b64decode(open("7.txt").read())))
+"""
